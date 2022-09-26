@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'TestApp',
     'rest_framework',
     'rest_framework.authtoken',
+    'debug_toolbar',
 ]
 
+
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'Test.urls'
@@ -81,6 +86,11 @@ TEMPLATES = [
 #     'rest_framework.permissions.IsAuthenticated',
 #     ),
 # }
+CACHE_TTL = 60 * 15
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -91,6 +101,18 @@ REST_FRAMEWORK = {
        ['rest_framework.permissions.AllowAny',]
    ),
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
+    }
+}
+
 
 WSGI_APPLICATION = 'Test.wsgi.application'
 
